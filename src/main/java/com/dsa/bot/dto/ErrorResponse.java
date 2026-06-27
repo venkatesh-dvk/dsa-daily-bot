@@ -3,11 +3,13 @@ package com.dsa.bot.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 public class ErrorResponse {
 
     private int status;
     private String message;
-    private String error;
+    private List<String> errors;
 }

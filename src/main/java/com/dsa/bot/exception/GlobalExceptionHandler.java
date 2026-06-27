@@ -4,17 +4,35 @@ import com.dsa.bot.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
 
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse handleException(Exception ex) {
+	    List<String> errors = ex.getBindingResult()
+	            .getFieldErrors()
+	            .stream()
+	            .map(fieldError -> fieldError.getDefaultMessage())
+	            .toList();
 
-        return new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Something went wrong",
-                ex.getMessage()
-        );
-    }
+	    return new ErrorResponse(
+	            400,
+	            "Validation Failed",
+	            errors
+	    );
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ErrorResponse handleException(Exception ex) {
+
+	    return new ErrorResponse(
+	            500,
+	            "Something went wrong",
+	            List.of(ex.getMessage())
+	    );
+	}
 }
