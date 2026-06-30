@@ -21,4 +21,9 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    
+    public User getUserByPhone(String phone) {
+        return userRepository.findByPhone(phone)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

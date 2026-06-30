@@ -32,4 +32,8 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+    @GetMapping("/phone/{phone}")
+    public User getUserByPhone(@PathVariable String phone) {
+        return userService.getUserByPhone(phone);
+    }
 }
