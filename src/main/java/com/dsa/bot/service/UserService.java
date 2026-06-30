@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dsa.bot.entity.User;
+import com.dsa.bot.exception.UserNotFoundException;
 import com.dsa.bot.repository.UserRepository;
 
 @Service
@@ -24,6 +25,6 @@ public class UserService {
     
     public User getUserByPhone(String phone) {
         return userRepository.findByPhone(phone)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }

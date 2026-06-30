@@ -10,6 +10,8 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
+	
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
 
@@ -23,6 +25,16 @@ public class GlobalExceptionHandler {
 	            400,
 	            "Validation Failed",
 	            errors
+	    );
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ErrorResponse handleUserNotFound(UserNotFoundException ex) {
+
+	    return new ErrorResponse(
+	            404,
+	            "User Not Found",
+	            List.of(ex.getMessage())
 	    );
 	}
 
